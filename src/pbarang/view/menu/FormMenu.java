@@ -1,7 +1,5 @@
 package pbarang.view.menu;
 
-import javax.swing.JButton;
-
 public class FormMenu extends javax.swing.JFrame {
 
     public FormMenu() {
@@ -17,7 +15,6 @@ public class FormMenu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        btnAdmin = new javax.swing.JButton();
         btnDataClient = new javax.swing.JButton();
         btnDataContact = new javax.swing.JButton();
         btnDataSuplier = new javax.swing.JButton();
@@ -61,11 +58,6 @@ public class FormMenu extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/home (1).png"))); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        btnAdmin.setBackground(new java.awt.Color(255, 153, 0));
-        btnAdmin.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btnAdmin.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdmin.setText("Admin");
 
         btnDataClient.setBackground(new java.awt.Color(255, 153, 0));
         btnDataClient.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -123,7 +115,6 @@ public class FormMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnDataClient, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDataContact, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +143,6 @@ public class FormMenu extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnDataSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)))
                 .addGap(18, 18, 18)
@@ -225,7 +215,6 @@ public class FormMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnDataClient;
     private javax.swing.JButton btnDataContact;
     private javax.swing.JButton btnDataSuplier;
