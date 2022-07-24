@@ -1,10 +1,5 @@
 package pbarang.view.menu;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
 public class FormLogin extends javax.swing.JFrame {
 
     public FormLogin() {
