@@ -330,5 +330,4 @@ public class FormRequestOrder extends javax.swing.JFrame {
     private javax.swing.JTextField txtTglRo;
     // End of variables declaration//GEN-END:variables
 
-    
 }
