@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Client" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="50328c8e-3630-42bd-ab70-bbadfdffa14e">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Klien" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="50328c8e-3630-42bd-ab70-bbadfdffa14e">
 	<property name="ireport.zoom" value="1.2100000000000002"/>
 	<property name="ireport.x" value="204"/>
 	<property name="ireport.y" value="0"/>
@@ -70,7 +70,9 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="170" y="0" width="100" height="20" uuid="d7004802-0708-4630-bd95-643d64dbb75b"/>
+				<reportElement x="0" y="0" width="200" height="20" uuid="d7004802-0708-4630-bd95-643d64dbb75b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -84,7 +86,9 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="270" y="0" width="100" height="20" uuid="2bd9542a-20bf-490b-9779-e9a53b13ee28"/>
+				<reportElement x="200" y="0" width="200" height="20" uuid="2bd9542a-20bf-490b-9779-e9a53b13ee28">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -98,7 +102,9 @@
 				<text><![CDATA[Nama]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="0" width="100" height="20" uuid="63af8054-1b28-42a8-8ad9-c38153a4681d"/>
+				<reportElement x="400" y="0" width="201" height="20" uuid="63af8054-1b28-42a8-8ad9-c38153a4681d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -112,7 +118,9 @@
 				<text><![CDATA[Alamat]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="0" width="150" height="20" uuid="4fec4679-c404-4a09-93d7-6e6194e5c969"/>
+				<reportElement x="601" y="0" width="200" height="20" uuid="4fec4679-c404-4a09-93d7-6e6194e5c969">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -128,9 +136,11 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="170" y="0" width="100" height="20" uuid="490e9ea3-3be6-47b2-a490-442ec805c34f"/>
+				<reportElement x="0" y="0" width="200" height="20" uuid="490e9ea3-3be6-47b2-a490-442ec805c34f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -142,7 +152,9 @@
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="270" y="0" width="100" height="20" uuid="75a5eebe-cfb7-4a5f-a418-db675d3639c7"/>
+				<reportElement x="200" y="0" width="200" height="20" uuid="75a5eebe-cfb7-4a5f-a418-db675d3639c7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -154,7 +166,9 @@
 				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="370" y="0" width="100" height="20" uuid="6f113cc4-46e1-4b9f-a38c-194ea60ffec9"/>
+				<reportElement x="400" y="0" width="201" height="20" uuid="6f113cc4-46e1-4b9f-a38c-194ea60ffec9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -166,7 +180,9 @@
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="470" y="0" width="150" height="20" uuid="1fe2eb48-26c0-46fa-a544-dbbf65fd91b7"/>
+				<reportElement x="601" y="0" width="200" height="20" uuid="1fe2eb48-26c0-46fa-a544-dbbf65fd91b7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>

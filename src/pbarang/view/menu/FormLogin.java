@@ -31,6 +31,7 @@ public class FormLogin extends javax.swing.JFrame {
         txtAddAccount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
