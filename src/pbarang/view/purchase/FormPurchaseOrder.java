@@ -88,6 +88,7 @@ public class FormPurchaseOrder extends javax.swing.JFrame {
 
         txtTglPo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtTglPo.setForeground(new java.awt.Color(0, 0, 0));
+        txtTglPo.setText("Date");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -95,6 +96,7 @@ public class FormPurchaseOrder extends javax.swing.JFrame {
 
         txtIdRo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtIdRo.setForeground(new java.awt.Color(0, 0, 0));
+        txtIdRo.setText("ComboBox");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
