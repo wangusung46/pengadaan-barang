@@ -1,9 +1,5 @@
 package pbarang.view.request;
 
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-
 public class FormRequestOrder extends javax.swing.JFrame {
 
     public FormRequestOrder() {
@@ -334,76 +330,5 @@ public class FormRequestOrder extends javax.swing.JFrame {
     private javax.swing.JTextField txtTglRo;
     // End of variables declaration//GEN-END:variables
 
-    public JButton getBtnClear() {
-        return btnClear;
-    }
-
-    public void setBtnClear(JButton btnClear) {
-        this.btnClear = btnClear;
-    }
-
-    public JButton getBtnDelete() {
-        return btnDelete;
-    }
-
-    public void setBtnDelete(JButton btnDelete) {
-        this.btnDelete = btnDelete;
-    }
-
-    public JButton getBtnInsert() {
-        return btnInsert;
-    }
-
-    public void setBtnInsert(JButton btnInsert) {
-        this.btnInsert = btnInsert;
-    }
-
-    public JButton getBtnUpdate() {
-        return btnUpdate;
-    }
-
-    public void setBtnUpdate(JButton btnUpdate) {
-        this.btnUpdate = btnUpdate;
-    }
-
-    public JTable getTabelRequestOrder() {
-        return tabelRequestOrder;
-    }
-
-    public void setTabelRequestOrder(JTable tabelRequestOrder) {
-        this.tabelRequestOrder = tabelRequestOrder;
-    }
-
-    public JTextField getTxtIdContract() {
-        return txtIdContract;
-    }
-
-    public void setTxtIdContract(JTextField txtIdContract) {
-        this.txtIdContract = txtIdContract;
-    }
-
-    public JTextField getTxtIdSupplier() {
-        return txtIdSupplier;
-    }
-
-    public void setTxtIdSupplier(JTextField txtIdSupplier) {
-        this.txtIdSupplier = txtIdSupplier;
-    }
-
-    public JTextField getTxtNetto() {
-        return txtNetto;
-    }
-
-    public void setTxtNetto(JTextField txtNetto) {
-        this.txtNetto = txtNetto;
-    }
-
-    public JTextField getTxtTglRo() {
-        return txtTglRo;
-    }
-
-    public void setTxtTglRo(JTextField txtTglRo) {
-        this.txtTglRo = txtTglRo;
-    }
     
 }

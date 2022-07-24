@@ -1,7 +1,5 @@
 package pbarang.view.menu;
 
-import javax.swing.JButton;
-
 public class FormMenu extends javax.swing.JFrame {
 
     public FormMenu() {
