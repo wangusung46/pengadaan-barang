@@ -138,7 +138,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnDataClient" min="-2" pref="203" max="-2" attributes="0"/>
-                          <Component id="btnAdmin" min="-2" pref="203" max="-2" attributes="0"/>
                           <Component id="btnDataContact" min="-2" pref="203" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="114" max="32767" attributes="0"/>
@@ -175,7 +174,6 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnAdmin" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
                               <Component id="btnDataSuplier" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -204,20 +202,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnAdmin">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="99" red="ff" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Admin"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnDataClient">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
