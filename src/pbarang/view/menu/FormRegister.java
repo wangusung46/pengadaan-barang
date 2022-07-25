@@ -1,9 +1,26 @@
 package pbarang.view.menu;
 
+import javax.swing.JOptionPane;
+import pbarang.model.admin.User;
+import pbarang.model.admin.UserJdbc;
+import pbarang.model.admin.UserJdbcImplement;
+
 public class FormRegister extends javax.swing.JFrame {
+
+    private final UserJdbc userJdbc;
 
     public FormRegister() {
         initComponents();
+        userJdbc = new UserJdbcImplement();
+    }
+    
+    private void empty() {
+        txtPassword.setText("");
+    }
+
+    private void perLogin() {
+        new FormLogin().setVisible(true);
+        dispose();
     }
 
     @SuppressWarnings("unchecked")
@@ -90,6 +107,11 @@ public class FormRegister extends javax.swing.JFrame {
         txtSignup.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtSignup.setForeground(new java.awt.Color(255, 255, 255));
         txtSignup.setText("Signup");
+        txtSignup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSignupActionPerformed(evt);
+            }
+        });
 
         txtLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtLogin.setForeground(new java.awt.Color(0, 153, 255));
@@ -243,6 +265,33 @@ public class FormRegister extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSignupActionPerformed
+        if (!txtNama.getText().isEmpty()) {
+            if (!txtUsername.getText().isEmpty()) {
+                if (!txtPassword.getText().isEmpty()) {
+                    User user = new User();
+                    user.setId(0L);
+                    user.setNama(txtNama.getText());
+                    user.setPassword(txtPassword.getText());
+                    user.setRole(cbxRole.getSelectedItem().toString());
+                    user.setUsername(txtUsername.getText());
+                    userJdbc.insert(user);
+                    JOptionPane.showMessageDialog(null, "Success Register", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    perLogin();
+                } else {
+                    empty();
+                    JOptionPane.showMessageDialog(null, "Password tidak boleh kosong", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                empty();
+                JOptionPane.showMessageDialog(null, "Nama tidak boleh kosong", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            empty();
+            JOptionPane.showMessageDialog(null, "User tidak boleh kosong", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_txtSignupActionPerformed
 
     public static void main(String args[]) {
         

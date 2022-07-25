@@ -33,6 +33,7 @@ public class DetailPembelianJdbcImplement implements DetailPembelianJdbc {
             while (resultSet.next()) {
                 DetailPembelian detailPembelian = new DetailPembelian();
                 detailPembelian.setId(resultSet.getLong("id"));
+                detailPembelian.setIdPembelian(resultSet.getLong("id_pembelian"));
                 detailPembelian.setBarang(resultSet.getString("barang"));
                 detailPembelian.setSatuan(resultSet.getString("satuan"));
                 detailPembelian.setVolume(resultSet.getLong("volume"));
@@ -77,11 +78,12 @@ public class DetailPembelianJdbcImplement implements DetailPembelianJdbc {
     public void insert(DetailPembelian request) {
         logger.debug(request.toString());
         try {
-            sql = "INSERT INTO detail_pembelian (barang, satuan, volume) VALUES(?, ?, ?);";
+            sql = "INSERT INTO detail_pembelian (id_pembelian, barang, satuan, volume) VALUES(?, ?, ?, ?);";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, request.getBarang());
-            preparedStatement.setString(2, request.getSatuan());
-            preparedStatement.setLong(3, request.getVolume());
+            preparedStatement.setLong(1, request.getIdPembelian());
+            preparedStatement.setString(2, request.getBarang());
+            preparedStatement.setString(3, request.getSatuan());
+            preparedStatement.setLong(4, request.getVolume());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();

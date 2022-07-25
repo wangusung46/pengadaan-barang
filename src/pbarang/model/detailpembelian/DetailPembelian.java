@@ -3,6 +3,7 @@ package pbarang.model.detailpembelian;
 public class DetailPembelian {
     
     private Long id;
+    private Long idPembelian;
     private String barang;
     private String satuan;
     private Long volume;
@@ -13,6 +14,14 @@ public class DetailPembelian {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdPembelian() {
+        return idPembelian;
+    }
+
+    public void setIdPembelian(Long idPembelian) {
+        this.idPembelian = idPembelian;
     }
 
     public String getBarang() {

@@ -1,9 +1,119 @@
 package pbarang.view.klien;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pbarang.model.klien.Klien;
+import pbarang.model.klien.KlienJdbc;
+import pbarang.model.klien.KlienJdbcImplement;
+
 public class FormKlien extends javax.swing.JFrame {
+
+    private final KlienJdbc detailPenjualanJdbc;
+    private Boolean clickTable;
+    private DefaultTableModel defaultTableModel;
 
     public FormKlien() {
         initComponents();
+        detailPenjualanJdbc = new KlienJdbcImplement();
+        initTable();
+        loadTable();
+    }
+
+    private void initTable() {
+        defaultTableModel = new DefaultTableModel();
+        defaultTableModel.addColumn("No");
+        defaultTableModel.addColumn("Nama");
+        defaultTableModel.addColumn("Alamat");
+        defaultTableModel.addColumn("Telepon");
+        tabelKlien.setModel(defaultTableModel);
+    }
+
+    private void loadTable() {
+        defaultTableModel.getDataVector().removeAllElements();
+        defaultTableModel.fireTableDataChanged();
+        List<Klien> responses = detailPenjualanJdbc.selectAll();
+        if (responses != null) {
+            Object[] objects = new Object[4];
+            for (Klien response : responses) {
+                objects[0] = response.getId();
+                objects[1] = response.getNama();
+                objects[2] = response.getAlamat();
+                objects[3] = response.getTelepon();
+                defaultTableModel.addRow(objects);
+            }
+            clickTable = false;
+        }
+    }
+
+    private void clickTable() {
+        Klien response = detailPenjualanJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 1).toString()));
+        txtNamaKlien.setText(response.getNama());
+        txtAlamat.setText(String.valueOf(response.getAlamat()));
+        txtTelepon.setText(String.valueOf(response.getTelepon()));
+        clickTable = true;
+    }
+
+    private void empty() {
+        txtNamaKlien.setText("");
+        txtAlamat.setText("");
+        txtTelepon.setText("");
+    }
+
+    private void performSave() {
+        if (!txtNamaKlien.getText().isEmpty()
+                && !txtAlamat.getText().isEmpty()
+                && !txtTelepon.getText().isEmpty()) {
+            if (JOptionPane.showConfirmDialog(null, "Do you want to save new data ?", "Info", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                Klien request = new Klien();
+                request.setNama(txtNamaKlien.getText());
+                request.setAlamat(txtAlamat.getText());
+                request.setTelepon(txtTelepon.getText());
+                detailPenjualanJdbc.insert(request);
+                loadTable();
+                empty();
+                JOptionPane.showMessageDialog(null, "Successfully save data", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Data not empty", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void performUpdate() {
+        if (clickTable) {
+            if (!txtNamaKlien.getText().isEmpty()
+                && !txtAlamat.getText().isEmpty()
+                && !txtTelepon.getText().isEmpty()) {
+                if (JOptionPane.showConfirmDialog(null, "Do you want to update data by id " + defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString() + " ?", "Warning", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                    Klien request = new Klien();
+                    request.setId(Long.parseLong(defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString()));
+                    request.setNama(txtNamaKlien.getText());
+                    request.setAlamat(txtAlamat.getText());
+                    request.setTelepon(txtTelepon.getText());
+                    detailPenjualanJdbc.update(request);
+                    loadTable();
+                    empty();
+                    JOptionPane.showMessageDialog(null, "Successfully update data", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Data not empty", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete or edit must click table", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void performDelete() {
+        if (clickTable) {
+            if (JOptionPane.showConfirmDialog(null, "Do you want to delete data by id " + defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString() + " ?", "Warning", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                detailPenjualanJdbc.delete(Long.parseLong(defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString()));
+                loadTable();
+                empty();
+                JOptionPane.showMessageDialog(null, "Successfully delete data", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete or edit must click table", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -14,7 +124,6 @@ public class FormKlien extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelKlien = new javax.swing.JTable();
@@ -27,11 +136,7 @@ public class FormKlien extends javax.swing.JFrame {
         txtTelepon = new javax.swing.JTextField();
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         btnDelete = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -76,8 +181,6 @@ public class FormKlien extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/client.png"))); // NOI18N
-
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
 
         tabelKlien.setModel(new javax.swing.table.DefaultTableModel(
@@ -88,6 +191,11 @@ public class FormKlien extends javax.swing.JFrame {
                 "Id", "Nama Klien", "Alamat", "Telepon"
             }
         ));
+        tabelKlien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelKlienMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelKlien);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -157,29 +265,41 @@ public class FormKlien extends javax.swing.JFrame {
         btnInsert.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnInsert.setForeground(new java.awt.Color(255, 255, 255));
         btnInsert.setText("Insert");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setBackground(new java.awt.Color(51, 153, 255));
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setText("Update");
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/insert.png"))); // NOI18N
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/update.png"))); // NOI18N
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/delete.png"))); // NOI18N
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(51, 153, 255));
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDelete.setForeground(new java.awt.Color(255, 255, 255));
         btnDelete.setText("Delete");
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/close.png"))); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnClear.setBackground(new java.awt.Color(51, 153, 255));
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/clear.png"))); // NOI18N
 
@@ -196,36 +316,22 @@ public class FormKlien extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(179, 179, 179)
-                        .addComponent(jLabel6)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(146, 146, 146)
-                                .addComponent(jLabel7)
-                                .addGap(147, 147, 147)
-                                .addComponent(jLabel8))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(202, 202, 202)
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(120, 120, 120)
-                                .addComponent(jLabel9))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnUpdate)
-                                .addGap(17, 17, 17)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(381, 381, 381)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdate)
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -240,36 +346,24 @@ public class FormKlien extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(29, 29, 29))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(65, 65, 65))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel10)
-                                            .addComponent(btnClear))
-                                        .addGap(1, 1, 1)))
-                                .addGap(1, 1, 1))
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel11)
-                                .addComponent(btnUpdate)
-                                .addComponent(btnInsert)
-                                .addComponent(jLabel12)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addGap(44, 44, 44))))
+                            .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(btnClear))
+                                .addGap(1, 1, 1)))
+                        .addGap(1, 1, 1))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel11)
+                        .addComponent(btnUpdate)
+                        .addComponent(btnInsert)
+                        .addComponent(jLabel12)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addGap(44, 44, 44))
         );
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/client.png"))); // NOI18N
@@ -278,10 +372,6 @@ public class FormKlien extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(501, 501, 501))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -303,9 +393,7 @@ public class FormKlien extends javax.swing.JFrame {
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -326,8 +414,28 @@ public class FormKlien extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        performSave();
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        performUpdate();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        performDelete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        empty();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void tabelKlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelKlienMouseClicked
+        clickTable();
+    }//GEN-LAST:event_tabelKlienMouseClicked
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -335,13 +443,7 @@ public class FormKlien extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormKlien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormKlien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormKlien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormKlien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
@@ -365,14 +467,9 @@ public class FormKlien extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

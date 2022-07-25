@@ -36,10 +36,10 @@ public class KontrakJdbcImplement implements KontrakJdbc {
                 kontrak.setId(resultSet.getLong("id"));                
                 kontrak.setTanggalKontrak(resultSet.getDate("tanggal_kontrak"));                
                 kontrak.setIdKlien(resultSet.getLong("id_klien"));
-                kontrak.setNamaKlien(resultSet.getString("nama_klien"));
+//                kontrak.setNamaKlien(resultSet.getString("nama_klien"));
                 kontrak.setNamaProyek(resultSet.getString("nama_proyek"));
                 kontrak.setUser(resultSet.getString("user"));
-                kontrak.setNamaUser(resultSet.getString("nama_user"));
+//                kontrak.setNamaUser(resultSet.getString("nama_user"));
                 kontrak.setNilaiKontrak(resultSet.getFloat("nilai_kontrak"));
                 kontrak.setNamaProyek(resultSet.getString("lama_proyek"));
                 kontrak.setSyaratPembayaran(resultSet.getString("syarat_pembayaran"));
