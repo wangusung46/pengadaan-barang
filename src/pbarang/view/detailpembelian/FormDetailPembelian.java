@@ -1,9 +1,138 @@
 package pbarang.view.detailpembelian;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pbarang.model.detailpembelian.DetailPembelian;
+import pbarang.model.detailpembelian.DetailPembelianJdbc;
+import pbarang.model.detailpembelian.DetailPembelianJdbcImplement;
+import pbarang.model.pembelian.Pembelian;
+import pbarang.model.pembelian.PembelianJdbc;
+import pbarang.model.pembelian.PembelianJdbcImplement;
+
 public class FormDetailPembelian extends javax.swing.JFrame {
+
+    private final DetailPembelianJdbc detailPembelianJdbc;
+    private final PembelianJdbc pembelianJdbc;
+    private Boolean clickTable;
+    private DefaultTableModel defaultTableModel;
 
     public FormDetailPembelian() {
         initComponents();
+        detailPembelianJdbc = new DetailPembelianJdbcImplement();
+        pembelianJdbc = new PembelianJdbcImplement();
+        initTable();
+        loadTable();
+        loadComboBoxPembelian();
+    }
+
+    private void initTable() {
+        defaultTableModel = new DefaultTableModel();
+        defaultTableModel.addColumn("No");
+        defaultTableModel.addColumn("ID Pembelian");
+        defaultTableModel.addColumn("Barang");
+        defaultTableModel.addColumn("Satuan");
+        defaultTableModel.addColumn("Volume");
+        tblDetailPembelain.setModel(defaultTableModel);
+    }
+
+    private void loadTable() {
+        defaultTableModel.getDataVector().removeAllElements();
+        defaultTableModel.fireTableDataChanged();
+        List<DetailPembelian> responses = detailPembelianJdbc.selectAll();
+        if (responses != null) {
+            Object[] objects = new Object[5];
+            for (DetailPembelian response : responses) {
+                objects[0] = response.getId();
+                objects[1] = response.getIdPembelian();
+                objects[2] = response.getBarang();
+                objects[3] = response.getSatuan();
+                objects[4] = response.getVolume();
+                defaultTableModel.addRow(objects);
+            }
+            clickTable = false;
+        }
+    }
+
+    private void loadComboBoxPembelian() {
+        List<Pembelian> responses = pembelianJdbc.selectAll();
+        for (Pembelian response : responses) {
+            cbxIdKontrak.addItem(String.valueOf(response.getId()));
+        }
+    }
+
+    private void clickTable() {
+        DetailPembelian response = detailPembelianJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tblDetailPembelain.getSelectedRow(), 1).toString()));
+        cbxIdKontrak.setSelectedItem(response.getId());
+        txtBarang.setText(response.getBarang());
+        txtSatuan.setText(String.valueOf(response.getSatuan()));
+        txtVolume.setText(String.valueOf(response.getVolume()));
+        clickTable = true;
+    }
+
+    private void empty() {
+        cbxIdKontrak.setSelectedIndex(0);
+        txtBarang.setText("");
+        txtSatuan.setText("");
+        txtVolume.setText("");
+    }
+
+    private void performSave() {
+        if (!txtBarang.getText().isEmpty()
+                && !txtVolume.getText().isEmpty()
+                && !txtSatuan.getText().isEmpty()) {
+            if (JOptionPane.showConfirmDialog(null, "Do you want to save new data ?", "Info", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                DetailPembelian request = new DetailPembelian();
+                request.setIdPembelian(Long.parseLong(cbxIdKontrak.getSelectedItem().toString()));
+                request.setBarang(txtBarang.getText());
+                request.setSatuan(txtSatuan.getText());
+                request.setVolume(Long.parseLong(txtVolume.getText()));
+                detailPembelianJdbc.insert(request);
+                loadTable();
+                empty();
+                JOptionPane.showMessageDialog(null, "Successfully save data", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Data not empty", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void performUpdate() {
+        if (clickTable) {
+            if (!txtBarang.getText().isEmpty()
+                    && !txtVolume.getText().isEmpty()
+                    && !txtSatuan.getText().isEmpty()) {
+                if (JOptionPane.showConfirmDialog(null, "Do you want to update data by id " + defaultTableModel.getValueAt(tblDetailPembelain.getSelectedRow(), 0).toString() + " ?", "Warning", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                    DetailPembelian request = new DetailPembelian();
+                    request.setId(Long.parseLong(defaultTableModel.getValueAt(tblDetailPembelain.getSelectedRow(), 0).toString()));
+                    request.setIdPembelian(Long.parseLong(cbxIdKontrak.getSelectedItem().toString()));
+                    request.setBarang(txtBarang.getText());
+                    request.setSatuan(txtSatuan.getText());
+                    request.setVolume(Long.parseLong(txtVolume.getText()));
+                    detailPembelianJdbc.update(request);
+                    loadTable();
+                    empty();
+                    JOptionPane.showMessageDialog(null, "Successfully update data", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Data not empty", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete or edit must click table", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void performDelete() {
+        if (clickTable) {
+            if (JOptionPane.showConfirmDialog(null, "Do you want to delete data by id " + defaultTableModel.getValueAt(tblDetailPembelain.getSelectedRow(), 0).toString() + " ?", "Warning", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                detailPembelianJdbc.delete(Long.parseLong(defaultTableModel.getValueAt(tblDetailPembelain.getSelectedRow(), 0).toString()));
+                loadTable();
+                empty();
+                JOptionPane.showMessageDialog(null, "Successfully delete data", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete or edit must click table", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -14,7 +143,6 @@ public class FormDetailPembelian extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDetailPembelain = new javax.swing.JTable();
@@ -25,13 +153,11 @@ public class FormDetailPembelian extends javax.swing.JFrame {
         txtSatuan = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtVolume = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        cbxIdKontrak = new javax.swing.JComboBox<>();
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         btnDelete = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -76,8 +202,6 @@ public class FormDetailPembelian extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/folder.png"))); // NOI18N
-
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
 
         tblDetailPembelain.setModel(new javax.swing.table.DefaultTableModel(
@@ -88,6 +212,11 @@ public class FormDetailPembelian extends javax.swing.JFrame {
                 "Id", "Barang", "Satuan", "Volume"
             }
         ));
+        tblDetailPembelain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDetailPembelainMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblDetailPembelain);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -114,28 +243,44 @@ public class FormDetailPembelian extends javax.swing.JFrame {
         txtVolume.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtVolume.setForeground(new java.awt.Color(0, 0, 0));
 
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("Id Pembelian :");
+
+        cbxIdKontrak.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxIdKontrak.setForeground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(28, 28, 28)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtSatuan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtVolume, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(59, 59, 59)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(cbxIdKontrak, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                    .addComponent(txtSatuan, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                    .addComponent(txtVolume, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(cbxIdKontrak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -154,24 +299,31 @@ public class FormDetailPembelian extends javax.swing.JFrame {
         btnInsert.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnInsert.setForeground(new java.awt.Color(255, 255, 255));
         btnInsert.setText("Insert");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setBackground(new java.awt.Color(51, 153, 255));
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setText("Update");
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/insert.png"))); // NOI18N
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/update.png"))); // NOI18N
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/delete.png"))); // NOI18N
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(51, 153, 255));
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDelete.setForeground(new java.awt.Color(255, 255, 255));
         btnDelete.setText("Delete");
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/close.png"))); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnClear.setBackground(new java.awt.Color(51, 153, 255));
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -195,45 +347,30 @@ public class FormDetailPembelian extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(179, 179, 179)
-                    .addComponent(jLabel6)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(146, 146, 146)
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 223, Short.MAX_VALUE)
-                            .addComponent(jLabel13)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)))
-                    .addComponent(jLabel12)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnUpdate)
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel11)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(24, 24, 24)
-                    .addComponent(jLabel10)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8)
-                    .addGap(118, 118, 118)
-                    .addComponent(jLabel9)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(402, 402, 402)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnUpdate)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,26 +381,15 @@ public class FormDetailPembelian extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(29, 29, 29))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel9))
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addGap(8, 8, 8)
-                                        .addComponent(jLabel12))
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(btnInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel13))))
-                                .addGap(28, 28, 28))))
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel12))
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel13)))
+                        .addGap(28, 28, 28))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,14 +411,9 @@ public class FormDetailPembelian extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(1035, 1035, 1035))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))))
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,8 +421,7 @@ public class FormDetailPembelian extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel2))
+                .addGap(45, 45, 45))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -320,8 +440,24 @@ public class FormDetailPembelian extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
+        empty();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        performSave();
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        performUpdate();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        performDelete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblDetailPembelainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetailPembelainMouseClicked
+        clickTable();
+    }//GEN-LAST:event_tblDetailPembelainMouseClicked
 
     public static void main(String args[]) {
 
@@ -338,20 +474,17 @@ public class FormDetailPembelian extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cbxIdKontrak;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

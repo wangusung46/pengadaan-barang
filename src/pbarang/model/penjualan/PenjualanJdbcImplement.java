@@ -35,7 +35,7 @@ public class PenjualanJdbcImplement implements PenjualanJdbc {
                 Penjualan pembelian = new Penjualan();
                 pembelian.setId(resultSet.getLong("id")); 
                 pembelian.setTanggalPenjualan(resultSet.getDate("tanggal_penjualan"));
-                pembelian.setIdPenjualan(resultSet.getInt("id_penjualan"));                
+                pembelian.setIdPenjualan(resultSet.getInt("id_pembelian"));                
                 pembelian.setNetto(resultSet.getLong("netto"));                
                      
                 

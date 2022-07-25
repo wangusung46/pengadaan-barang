@@ -2,18 +2,19 @@ package pbarang.model.admin;
 
 public class User {
     
-    private int id;
+    private Long id;
     private String userName;
     private String nama;
     private String email;
     private String password;
     private String role;
+    public static String userLogin = "Admin";
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

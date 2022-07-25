@@ -37,10 +37,39 @@ public class DetailKontrakJdbcImplement implements DetailKontrakJdbc {
                 detailKontrak.setPekerjaan(resultSet.getString("pekerjaan"));
                 detailKontrak.setVolume(resultSet.getLong("volume"));
                 detailKontrak.setSatuan(resultSet.getString("satuan"));
-                detailKontrak.setHarga(resultSet.getLong("harga"));                                              
-                detailKontrak.setJumlah(resultSet.getLong("jumlah"));                                              
+                detailKontrak.setHarga(resultSet.getLong("harga"));
+                detailKontrak.setJumlah(resultSet.getLong("jumlah"));
 
                 response.add(detailKontrak);
+            }
+            resultSet.close();
+            preparedStatement.close();
+            logger.debug(response.toString());
+            return response;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+            logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public DetailKontrak select(Long request) {
+        DetailKontrak response = new DetailKontrak();
+        try {
+            sql = "SELECT * FROM detail_kontrak where id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, request);
+            logger.debug(preparedStatement.toString());
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                response.setId(resultSet.getLong("id"));
+                response.setIdKontrak(resultSet.getLong("id_kontrak"));
+                response.setPekerjaan(resultSet.getString("pekerjaan"));
+                response.setVolume(resultSet.getLong("volume"));
+                response.setSatuan(resultSet.getString("satuan"));
+                response.setHarga(resultSet.getLong("harga"));
+                response.setJumlah(resultSet.getLong("jumlah"));
             }
             resultSet.close();
             preparedStatement.close();
@@ -71,7 +100,7 @@ public class DetailKontrakJdbcImplement implements DetailKontrakJdbc {
             preparedStatement.setString(4, request.getSatuan());
             preparedStatement.setLong(5, request.getHarga());
             preparedStatement.setLong(6, request.getJumlah());
-            
+
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -94,7 +123,7 @@ public class DetailKontrakJdbcImplement implements DetailKontrakJdbc {
             preparedStatement.setLong(3, request.getVolume());
             preparedStatement.setString(4, request.getSatuan());
             preparedStatement.setLong(5, request.getHarga());
-            preparedStatement.setLong(6, request.getJumlah());            
+            preparedStatement.setLong(6, request.getJumlah());
             preparedStatement.setLong(8, request.getId());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();

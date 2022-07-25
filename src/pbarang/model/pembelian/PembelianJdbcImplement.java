@@ -33,14 +33,14 @@ public class PembelianJdbcImplement implements PembelianJdbc {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Pembelian pembelian = new Pembelian();
-                pembelian.setId(resultSet.getLong("id"));                
-                pembelian.setIdKontrak(resultSet.getInt("id_kontrak"));                
-                pembelian.setNamaKontrak(resultSet.getString("nama_kontrak"));                
-                pembelian.setTanggalRo(resultSet.getDate("tanggal_ro"));   
-                pembelian.setIdSupplier(resultSet.getInt("id_supplier")); 
-                pembelian.setNamaSupplier(resultSet.getString("nama_supplier"));     
-                pembelian.setNetto(resultSet.getFloat("netto"));     
-                
+                pembelian.setId(resultSet.getLong("id"));
+                pembelian.setIdKontrak(resultSet.getInt("id_kontrak"));
+//                pembelian.setNamaKontrak(resultSet.getString("nama_kontrak"));                
+                pembelian.setTanggalRo(resultSet.getDate("tanggal_ro"));
+                pembelian.setIdSupplier(resultSet.getInt("id_supplier"));
+//                pembelian.setNamaSupplier(resultSet.getString("nama_supplier"));     
+                pembelian.setNetto(resultSet.getFloat("netto"));
+
                 response.add(pembelian);
             }
             resultSet.close();
@@ -66,13 +66,13 @@ public class PembelianJdbcImplement implements PembelianJdbc {
                     + "(id_kontrak, nama_kontrak, tanggal_ro, id_supplier, nama_supplier, netto)\n"
                     + "VALUES(?, ?, ?, ?, ?, ?);";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1, request.getId());            
-            preparedStatement.setInt(2, request.getIdKontrak());                      
-            preparedStatement.setString(3, request.getNamaKontrak());                      
-            preparedStatement.setDate(4, (Date) request.getTanggalRo());      
-            preparedStatement.setInt(5, request.getIdSupplier());   
-            preparedStatement.setString(6, request.getNamaSupplier());   
-            preparedStatement.setFloat(7, request.getNetto());   
+            preparedStatement.setLong(1, request.getId());
+            preparedStatement.setInt(2, request.getIdKontrak());
+            preparedStatement.setString(3, request.getNamaKontrak());
+            preparedStatement.setDate(4, (Date) request.getTanggalRo());
+            preparedStatement.setInt(5, request.getIdSupplier());
+            preparedStatement.setString(6, request.getNamaSupplier());
+            preparedStatement.setFloat(7, request.getNetto());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();

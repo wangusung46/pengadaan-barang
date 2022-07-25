@@ -5,7 +5,7 @@ public class Klien {
     private Long id;
     private String nama;
     private String alamat;
-    private Long telepon;    
+    private String telepon;    
 
     public Long getId() {
         return id;
@@ -31,11 +31,11 @@ public class Klien {
         this.alamat = alamat;
     }
 
-    public Long getTelepon() {
+    public String getTelepon() {
         return telepon;
     }
 
-    public void setTelepon(Long telepon) {
+    public void setTelepon(String telepon) {
         this.telepon = telepon;
     }
 

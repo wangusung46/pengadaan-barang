@@ -35,7 +35,7 @@ public class KlienJdbcImplement implements KlienJdbc {
                 klien.setId(resultSet.getLong("id"));
                 klien.setNama(resultSet.getString("nama"));
                 klien.setAlamat(resultSet.getString("alamat"));
-                klien.setTelepon(resultSet.getLong("telepon"));
+                klien.setTelepon(resultSet.getString("telepon"));
                 response.add(klien);
             }
             resultSet.close();
@@ -63,7 +63,7 @@ public class KlienJdbcImplement implements KlienJdbc {
                 response.setId(resultSet.getLong("id"));
                 response.setNama(resultSet.getString("nama"));
                 response.setAlamat(resultSet.getString("alamat"));
-                response.setTelepon(resultSet.getLong("telepon"));
+                response.setTelepon(resultSet.getString("telepon"));
             }
             logger.debug(response.toString());
         } catch (SQLException e) {
@@ -81,7 +81,7 @@ public class KlienJdbcImplement implements KlienJdbc {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, request.getNama());
             preparedStatement.setString(2, request.getAlamat());
-            preparedStatement.setLong(3, request.getTelepon());
+            preparedStatement.setString(3, request.getTelepon());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -98,7 +98,7 @@ public class KlienJdbcImplement implements KlienJdbc {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, request.getNama());
             preparedStatement.setString(2, request.getAlamat());
-            preparedStatement.setLong(3, request.getTelepon());
+            preparedStatement.setString(3, request.getTelepon());
             preparedStatement.setLong(4, request.getId());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();

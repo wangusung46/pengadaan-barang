@@ -1,9 +1,28 @@
 package pbarang.view.menu;
 
+import javax.swing.JOptionPane;
+import pbarang.model.admin.User;
+import pbarang.model.admin.UserJdbc;
+import pbarang.model.admin.UserJdbcImplement;
+
 public class FormLogin extends javax.swing.JFrame {
+
+    private final UserJdbc userJdbc;
 
     public FormLogin() {
         initComponents();
+        userJdbc = new UserJdbcImplement();
+    }
+
+    private void perMenu() {
+        this.setVisible(false);
+        FormMenu formMainMenu = new FormMenu();
+        formMainMenu.setVisible(true);
+    }
+
+    private void empty() {
+        txtUsername.setText("");
+        txtPassword.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -91,6 +110,11 @@ public class FormLogin extends javax.swing.JFrame {
         btnSignin.setForeground(new java.awt.Color(255, 255, 255));
         btnSignin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/login.png"))); // NOI18N
         btnSignin.setText("Signin");
+        btnSignin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSigninActionPerformed(evt);
+            }
+        });
 
         txtAddAccount.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtAddAccount.setForeground(new java.awt.Color(0, 0, 0));
@@ -203,11 +227,33 @@ public class FormLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSigninActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigninActionPerformed
+        if (!txtUsername.getText().isEmpty()) {
+            if (!txtPassword.getText().isEmpty()) {
+                if(userJdbc.login(txtUsername.getText(), txtPassword.getText())){
+                    String role = userJdbc.selectRole(txtUsername.getText());
+                    User.userLogin = role;
+                    JOptionPane.showMessageDialog(null, "Berhasil Login", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    perMenu();
+                } else {
+                    empty();
+                    JOptionPane.showMessageDialog(null, "Gagal Login", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                empty();
+                JOptionPane.showMessageDialog(null, "Password tidak boleh kosong", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            empty();
+            JOptionPane.showMessageDialog(null, "Username tidak boleh kosong", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSigninActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -215,13 +261,7 @@ public class FormLogin extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
