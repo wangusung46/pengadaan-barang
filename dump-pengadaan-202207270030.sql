@@ -140,10 +140,10 @@ CREATE TABLE `kontrak` (
   `nama_proyek` varchar(100) NOT NULL,
   `user` varchar(100) NOT NULL,
   `nilai_kontrak` float NOT NULL,
-  `lama_proyek` varchar(20) NOT NULL,
+  `lama_proyek` bigint(20) NOT NULL,
   `syarat_pembayaran` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +152,7 @@ CREATE TABLE `kontrak` (
 
 LOCK TABLES `kontrak` WRITE;
 /*!40000 ALTER TABLE `kontrak` DISABLE KEYS */;
-INSERT INTO `kontrak` VALUES (1,'2021-06-03',1,'AAA','1',1,'1','AAA');
+INSERT INTO `kontrak` VALUES (1,'2021-06-03',1,'AAA','1',1,1,'AAA'),(2,'2022-07-26',2,'1234','1',1234,1234,'1234');
 /*!40000 ALTER TABLE `kontrak` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,11 +166,11 @@ DROP TABLE IF EXISTS `pembelian`;
 CREATE TABLE `pembelian` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
   `id_kontrak` int(8) NOT NULL,
-  `tanggal_ro` date NOT NULL,
+  `tanggal_pembelian` date NOT NULL,
   `id_supplier` int(8) NOT NULL,
   `netto` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `pembelian` (
 
 LOCK TABLES `pembelian` WRITE;
 /*!40000 ALTER TABLE `pembelian` DISABLE KEYS */;
-INSERT INTO `pembelian` VALUES (1,1,'2022-05-14',1,1);
+INSERT INTO `pembelian` VALUES (1,1,'2022-05-14',1,1),(2,1,'2022-07-26',1,1234);
 /*!40000 ALTER TABLE `pembelian` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +196,7 @@ CREATE TABLE `penjualan` (
   `id_pembelian` int(8) NOT NULL,
   `netto` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `penjualan` (
 
 LOCK TABLES `penjualan` WRITE;
 /*!40000 ALTER TABLE `penjualan` DISABLE KEYS */;
-INSERT INTO `penjualan` VALUES (1,'2022-05-14',1,1);
+INSERT INTO `penjualan` VALUES (1,'2022-05-14',1,1),(2,'2022-07-09',1,12345);
 /*!40000 ALTER TABLE `penjualan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,9 +220,9 @@ CREATE TABLE `supplier` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
   `nama_supplier` varchar(35) NOT NULL,
   `alamat` varchar(100) NOT NULL,
-  `telepon` int(13) NOT NULL,
+  `telepon` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,6 +231,7 @@ CREATE TABLE `supplier` (
 
 LOCK TABLES `supplier` WRITE;
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
+INSERT INTO `supplier` VALUES (1,'Dano','123','123'),(2,'1234','123','123');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +246,7 @@ CREATE TABLE `user` (
   `username` varchar(100) NOT NULL,
   `password` int(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `role` enum('Admin','Kepala_Gudang','Manajer','') NOT NULL,
+  `role` enum('Admin','Kepala Gudang','Manajer','') NOT NULL,
   `nama` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -256,7 +257,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('1',1,'1','Admin','Andre Bodo- bodo');
+INSERT INTO `user` VALUES ('1',1,'1','Admin','111'),('2',2,'2','Manajer','222'),('3',3,'3','Kepala Gudang','333');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,4 +274,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-25 23:53:24
+-- Dump completed on 2022-07-27  0:30:35
