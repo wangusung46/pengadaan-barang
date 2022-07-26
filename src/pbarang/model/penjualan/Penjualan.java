@@ -6,7 +6,7 @@ public class Penjualan {
     
    private Long id;
    private Date tanggalPenjualan;
-   private int idPenjualan;
+   private Long idPembelian;
    private Long netto;
 
     public Long getId() {
@@ -25,12 +25,12 @@ public class Penjualan {
         this.tanggalPenjualan = tanggalPenjualan;
     }
 
-    public int getIdPenjualan() {
-        return idPenjualan;
+    public Long getIdPembelian() {
+        return idPembelian;
     }
 
-    public void setIdPenjualan(int idPenjualan) {
-        this.idPenjualan = idPenjualan;
+    public void setIdPembelian(Long idPembelian) {
+        this.idPembelian = idPembelian;
     }
 
     public Long getNetto() {
@@ -43,7 +43,7 @@ public class Penjualan {
 
     @Override
     public String toString() {
-        return "Penjualan{" + "id=" + id + ", tanggalPenjualan=" + tanggalPenjualan + ", idPenjualan=" + idPenjualan + ", netto=" + netto + '}';
+        return "Penjualan{" + "id=" + id + ", tanggalPenjualan=" + tanggalPenjualan + ", idPembelian=" + idPembelian + ", netto=" + netto + '}';
     }
    
 }

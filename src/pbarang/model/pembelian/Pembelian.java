@@ -5,12 +5,12 @@ import java.util.Date;
 public class Pembelian {
     
     private Long id;
-    private int IdKontrak;
+    private Long IdKontrak;
     private String namaKontrak;
     private Date tanggalRo;
-    private int idSupplier;
+    private Long idSupplier;
     private String namaSupplier;
-    private Float netto;
+    private Long netto;
 
     public Long getId() {
         return id;
@@ -20,11 +20,11 @@ public class Pembelian {
         this.id = id;
     }
 
-    public int getIdKontrak() {
+    public Long getIdKontrak() {
         return IdKontrak;
     }
 
-    public void setIdKontrak(int IdKontrak) {
+    public void setIdKontrak(Long IdKontrak) {
         this.IdKontrak = IdKontrak;
     }
 
@@ -52,19 +52,19 @@ public class Pembelian {
         this.tanggalRo = tanggalRo;
     }
 
-    public int getIdSupplier() {
+    public Long getIdSupplier() {
         return idSupplier;
     }
 
-    public void setIdSupplier(int idSupplier) {
+    public void setIdSupplier(Long idSupplier) {
         this.idSupplier = idSupplier;
     }
 
-    public Float getNetto() {
+    public Long getNetto() {
         return netto;
     }
 
-    public void setNetto(Float netto) {
+    public void setNetto(Long netto) {
         this.netto = netto;
     }
 

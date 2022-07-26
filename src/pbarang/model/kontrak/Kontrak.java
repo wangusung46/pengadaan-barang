@@ -11,8 +11,8 @@ public class Kontrak {
     private String namaProyek;
     private String user;
     private String namaUser;
-    private Float nilaiKontrak;
-    private String lamaProyek;
+    private Long nilaiKontrak;
+    private Long lamaProyek;
     private String syaratPembayaran;
 
     public Long getId() {
@@ -71,19 +71,19 @@ public class Kontrak {
         this.namaUser = namaUser;
     }
 
-    public Float getNilaiKontrak() {
+    public Long getNilaiKontrak() {
         return nilaiKontrak;
     }
 
-    public void setNilaiKontrak(Float nilaiKontrak) {
+    public void setNilaiKontrak(Long nilaiKontrak) {
         this.nilaiKontrak = nilaiKontrak;
     }
 
-    public String getLamaProyek() {
+    public Long getLamaProyek() {
         return lamaProyek;
     }
 
-    public void setLamaProyek(String lamaProyek) {
+    public void setLamaProyek(Long lamaProyek) {
         this.lamaProyek = lamaProyek;
     }
 

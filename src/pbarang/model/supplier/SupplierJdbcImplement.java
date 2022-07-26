@@ -35,7 +35,7 @@ public class SupplierJdbcImplement implements SupplierJdbc {
                 supplier.setId(resultSet.getLong("id"));
                 supplier.setNamaSupplier(resultSet.getString("nama_supplier"));
                 supplier.setAlamat(resultSet.getString("alamat"));
-                supplier.setTelepon(resultSet.getInt("telepon"));
+                supplier.setTelepon(resultSet.getString("telepon"));
                 response.add(supplier);
             }
             resultSet.close();
@@ -63,7 +63,7 @@ public class SupplierJdbcImplement implements SupplierJdbc {
                 response.setId(resultSet.getLong("id"));
                 response.setNamaSupplier(resultSet.getString("nama_supplier"));
                 response.setAlamat(resultSet.getString("alamat"));
-                response.setTelepon(resultSet.getInt("telepon"));
+                response.setTelepon(resultSet.getString("telepon"));
             }
             logger.debug(response.toString());
         } catch (SQLException e) {
@@ -77,11 +77,11 @@ public class SupplierJdbcImplement implements SupplierJdbc {
     public void insert(Supplier request) {
         logger.debug(request.toString());
         try {
-            sql = "INSERT INTO klien (nama_supplier, alamat, telepon) VALUES(?, ?, ?);";
+            sql = "INSERT INTO supplier (nama_supplier, alamat, telepon) VALUES(?, ?, ?);";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, request.getNamaSupplier());
             preparedStatement.setString(2, request.getAlamat());
-            preparedStatement.setLong(3, request.getTelepon());
+            preparedStatement.setString(3, request.getTelepon());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -98,7 +98,7 @@ public class SupplierJdbcImplement implements SupplierJdbc {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, request.getNamaSupplier());
             preparedStatement.setString(2, request.getAlamat());
-            preparedStatement.setLong(3, request.getTelepon());
+            preparedStatement.setString(3, request.getTelepon());
             preparedStatement.setLong(4, request.getId());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();

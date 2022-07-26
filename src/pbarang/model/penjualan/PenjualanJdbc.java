@@ -12,4 +12,6 @@ public interface PenjualanJdbc {
     
     public void delete(Long request);
 
+    public Penjualan select(Long parseLong);
+
 }

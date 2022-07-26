@@ -34,12 +34,12 @@ public class PembelianJdbcImplement implements PembelianJdbc {
             while (resultSet.next()) {
                 Pembelian pembelian = new Pembelian();
                 pembelian.setId(resultSet.getLong("id"));
-                pembelian.setIdKontrak(resultSet.getInt("id_kontrak"));
+                pembelian.setIdKontrak(resultSet.getLong("id_kontrak"));
 //                pembelian.setNamaKontrak(resultSet.getString("nama_kontrak"));                
-                pembelian.setTanggalRo(resultSet.getDate("tanggal_ro"));
-                pembelian.setIdSupplier(resultSet.getInt("id_supplier"));
+                pembelian.setTanggalRo(resultSet.getDate("tanggal_pembelian"));
+                pembelian.setIdSupplier(resultSet.getLong("id_supplier"));
 //                pembelian.setNamaSupplier(resultSet.getString("nama_supplier"));     
-                pembelian.setNetto(resultSet.getFloat("netto"));
+                pembelian.setNetto(resultSet.getLong("netto"));
 
                 response.add(pembelian);
             }
@@ -63,16 +63,13 @@ public class PembelianJdbcImplement implements PembelianJdbc {
         logger.debug(request.toString());
         try {
             sql = "INSERT INTO pembelian\n"
-                    + "(id_kontrak, nama_kontrak, tanggal_ro, id_supplier, nama_supplier, netto)\n"
-                    + "VALUES(?, ?, ?, ?, ?, ?);";
+                    + "(id_kontrak, tanggal_pembelian, id_supplier, netto)\n"
+                    + "VALUES(?, ?, ?, ?);";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1, request.getId());
-            preparedStatement.setInt(2, request.getIdKontrak());
-            preparedStatement.setString(3, request.getNamaKontrak());
-            preparedStatement.setDate(4, (Date) request.getTanggalRo());
-            preparedStatement.setInt(5, request.getIdSupplier());
-            preparedStatement.setString(6, request.getNamaSupplier());
-            preparedStatement.setFloat(7, request.getNetto());
+            preparedStatement.setLong(1, request.getIdKontrak());
+            preparedStatement.setDate(2, new java.sql.Date(request.getTanggalRo().getTime()));
+            preparedStatement.setLong(3, request.getIdSupplier());
+            preparedStatement.setLong(4, request.getNetto());
             logger.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -90,10 +87,10 @@ public class PembelianJdbcImplement implements PembelianJdbc {
                     + "WHERE id=?;";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, request.getIdKontrak());
+            preparedStatement.setLong(1, request.getIdKontrak());
             preparedStatement.setString(2, request.getNamaKontrak());
             preparedStatement.setDate(3, (Date) request.getTanggalRo());
-            preparedStatement.setInt(4, request.getIdSupplier());
+            preparedStatement.setLong(4, request.getIdSupplier());
             preparedStatement.setString(5, request.getNamaSupplier());
             preparedStatement.setFloat(6, request.getNetto());
             preparedStatement.setLong(7, request.getId());
@@ -110,7 +107,7 @@ public class PembelianJdbcImplement implements PembelianJdbc {
     public void delete(Long request) {
         logger.debug(request.toString());
         try {
-            sql = "DELETE FROM pembelian WHERE id=?;";
+            sql = "DELETE FROM pembelian WHERE id = ?;";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, request);
             logger.debug(preparedStatement.toString());
@@ -118,6 +115,33 @@ public class PembelianJdbcImplement implements PembelianJdbc {
             preparedStatement.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public Pembelian select(Long request) {
+        Pembelian response = new Pembelian();
+        try {
+            sql = "SELECT * FROM pembelian where id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, request);
+            logger.debug(preparedStatement.toString());
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                response.setId(resultSet.getLong("id"));
+                response.setIdKontrak(resultSet.getLong("id_kontrak"));
+                response.setTanggalRo(resultSet.getDate("tanggal_pembelian"));
+                response.setIdSupplier(resultSet.getLong("id_supplier"));
+                response.setNetto(resultSet.getLong("netto"));
+            }
+            resultSet.close();
+            preparedStatement.close();
+            logger.debug(response.toString());
+            return response;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+            logger.error(e.getMessage());
+            return null;
         }
     }
 

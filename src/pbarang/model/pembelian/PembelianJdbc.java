@@ -12,4 +12,6 @@ public interface PembelianJdbc {
     
     public void delete(Long request);
 
+    public Pembelian select(Long parseLong);
+
 }

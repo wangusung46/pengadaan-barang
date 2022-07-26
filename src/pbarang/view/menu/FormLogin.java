@@ -38,14 +38,12 @@ public class FormLogin extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         btnSignin = new javax.swing.JButton();
         txtAddAccount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
@@ -97,8 +95,6 @@ public class FormLogin extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Password :");
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/user (2).png"))); // NOI18N
-
         txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtUsername.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -108,7 +104,6 @@ public class FormLogin extends javax.swing.JFrame {
         btnSignin.setBackground(new java.awt.Color(51, 102, 255));
         btnSignin.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         btnSignin.setForeground(new java.awt.Color(255, 255, 255));
-        btnSignin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/login.png"))); // NOI18N
         btnSignin.setText("Signin");
         btnSignin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,6 +114,11 @@ public class FormLogin extends javax.swing.JFrame {
         txtAddAccount.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtAddAccount.setForeground(new java.awt.Color(0, 0, 0));
         txtAddAccount.setText("Create new account ?");
+        txtAddAccount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtAddAccountMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -132,11 +132,9 @@ public class FormLogin extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtUsername)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtUsername)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
                 .addGap(121, 121, 121))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -152,9 +150,7 @@ public class FormLogin extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addGap(24, 24, 24)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -249,6 +245,11 @@ public class FormLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSigninActionPerformed
 
+    private void txtAddAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAddAccountMouseClicked
+        new FormRegister().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_txtAddAccountMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -279,7 +280,6 @@ public class FormLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
