@@ -6,16 +6,17 @@ import javax.swing.table.DefaultTableModel;
 import pbarang.model.klien.Klien;
 import pbarang.model.klien.KlienJdbc;
 import pbarang.model.klien.KlienJdbcImplement;
+import pbarang.view.menu.FormMenu;
 
 public class FormKlien extends javax.swing.JFrame {
 
-    private final KlienJdbc detailPenjualanJdbc;
+    private final KlienJdbc klienJdbc;
     private Boolean clickTable;
     private DefaultTableModel defaultTableModel;
 
     public FormKlien() {
         initComponents();
-        detailPenjualanJdbc = new KlienJdbcImplement();
+        klienJdbc = new KlienJdbcImplement();
         initTable();
         loadTable();
     }
@@ -32,7 +33,7 @@ public class FormKlien extends javax.swing.JFrame {
     private void loadTable() {
         defaultTableModel.getDataVector().removeAllElements();
         defaultTableModel.fireTableDataChanged();
-        List<Klien> responses = detailPenjualanJdbc.selectAll();
+        List<Klien> responses = klienJdbc.selectAll();
         if (responses != null) {
             Object[] objects = new Object[4];
             for (Klien response : responses) {
@@ -47,7 +48,7 @@ public class FormKlien extends javax.swing.JFrame {
     }
 
     private void clickTable() {
-        Klien response = detailPenjualanJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 1).toString()));
+        Klien response = klienJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString()));
         txtNamaKlien.setText(response.getNama());
         txtAlamat.setText(String.valueOf(response.getAlamat()));
         txtTelepon.setText(String.valueOf(response.getTelepon()));
@@ -69,7 +70,7 @@ public class FormKlien extends javax.swing.JFrame {
                 request.setNama(txtNamaKlien.getText());
                 request.setAlamat(txtAlamat.getText());
                 request.setTelepon(txtTelepon.getText());
-                detailPenjualanJdbc.insert(request);
+                klienJdbc.insert(request);
                 loadTable();
                 empty();
                 JOptionPane.showMessageDialog(null, "Successfully save data", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -90,7 +91,7 @@ public class FormKlien extends javax.swing.JFrame {
                     request.setNama(txtNamaKlien.getText());
                     request.setAlamat(txtAlamat.getText());
                     request.setTelepon(txtTelepon.getText());
-                    detailPenjualanJdbc.update(request);
+                    klienJdbc.update(request);
                     loadTable();
                     empty();
                     JOptionPane.showMessageDialog(null, "Successfully update data", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -106,7 +107,7 @@ public class FormKlien extends javax.swing.JFrame {
     private void performDelete() {
         if (clickTable) {
             if (JOptionPane.showConfirmDialog(null, "Do you want to delete data by id " + defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString() + " ?", "Warning", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                detailPenjualanJdbc.delete(Long.parseLong(defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString()));
+                klienJdbc.delete(Long.parseLong(defaultTableModel.getValueAt(tabelKlien.getSelectedRow(), 0).toString()));
                 loadTable();
                 empty();
                 JOptionPane.showMessageDialog(null, "Successfully delete data", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -157,6 +158,11 @@ public class FormKlien extends javax.swing.JFrame {
         btnLogout.setBackground(new java.awt.Color(255, 51, 51));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/logout.png"))); // NOI18N
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -433,6 +439,11 @@ public class FormKlien extends javax.swing.JFrame {
     private void tabelKlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelKlienMouseClicked
         clickTable();
     }//GEN-LAST:event_tabelKlienMouseClicked
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        new FormMenu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     public static void main(String args[]) {
 

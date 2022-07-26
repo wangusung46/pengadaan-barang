@@ -9,6 +9,7 @@ import pbarang.model.detailpenjualan.DetailPenjualanJdbcImplement;
 import pbarang.model.penjualan.Penjualan;
 import pbarang.model.penjualan.PenjualanJdbc;
 import pbarang.model.penjualan.PenjualanJdbcImplement;
+import pbarang.view.menu.FormMenu;
 
 public class FormDetailPenjualan extends javax.swing.JFrame {
 
@@ -66,7 +67,7 @@ public class FormDetailPenjualan extends javax.swing.JFrame {
     }
 
     private void clickTable() {
-        DetailPenjualan response = detailPenjualanJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tblDetailPenjualan.getSelectedRow(), 1).toString()));
+        DetailPenjualan response = detailPenjualanJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tblDetailPenjualan.getSelectedRow(), 0).toString()));
         cbxIdPenjualan.setSelectedItem(response.getId());
         txtBarang.setText(response.getBarang());
         txtSatuan.setText(String.valueOf(response.getSatuan()));
@@ -196,6 +197,11 @@ public class FormDetailPenjualan extends javax.swing.JFrame {
         btnLogout.setBackground(new java.awt.Color(255, 51, 51));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/logout.png"))); // NOI18N
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -392,6 +398,7 @@ public class FormDetailPenjualan extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel17)
@@ -410,7 +417,6 @@ public class FormDetailPenjualan extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -501,6 +507,11 @@ public class FormDetailPenjualan extends javax.swing.JFrame {
     private void tblDetailPenjualanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetailPenjualanMouseClicked
         clickTable();
     }//GEN-LAST:event_tblDetailPenjualanMouseClicked
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        new FormMenu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     public static void main(String args[]) {
 

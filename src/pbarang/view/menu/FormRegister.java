@@ -40,7 +40,6 @@ public class FormRegister extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         txtSignup = new javax.swing.JButton();
         txtLogin = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -116,8 +115,11 @@ public class FormRegister extends javax.swing.JFrame {
         txtLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtLogin.setForeground(new java.awt.Color(0, 153, 255));
         txtLogin.setText("Have already an account ? Login here");
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/add-user.png"))); // NOI18N
+        txtLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtLoginMouseClicked(evt);
+            }
+        });
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -134,7 +136,7 @@ public class FormRegister extends javax.swing.JFrame {
 
         cbxRole.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbxRole.setForeground(new java.awt.Color(0, 0, 0));
-        cbxRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Kepala_Gudang", "Manager" }));
+        cbxRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Kepala Gudang", "Manager" }));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/sign-up.png"))); // NOI18N
 
@@ -142,10 +144,6 @@ public class FormRegister extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addGap(403, 403, 403))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -218,9 +216,7 @@ public class FormRegister extends javax.swing.JFrame {
                     .addComponent(txtSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtLogin)
-                .addGap(110, 110, 110)
-                .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/add-user.png"))); // NOI18N
@@ -247,7 +243,7 @@ public class FormRegister extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -276,6 +272,7 @@ public class FormRegister extends javax.swing.JFrame {
                     user.setPassword(txtPassword.getText());
                     user.setRole(cbxRole.getSelectedItem().toString());
                     user.setUsername(txtUsername.getText());
+                    user.setEmail(txtEmail.getText());
                     userJdbc.insert(user);
                     JOptionPane.showMessageDialog(null, "Success Register", "Success", JOptionPane.INFORMATION_MESSAGE);
                     perLogin();
@@ -292,6 +289,11 @@ public class FormRegister extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "User tidak boleh kosong", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtSignupActionPerformed
+
+    private void txtLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtLoginMouseClicked
+        new FormLogin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_txtLoginMouseClicked
 
     public static void main(String args[]) {
         
@@ -313,7 +315,6 @@ public class FormRegister extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

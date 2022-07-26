@@ -1,9 +1,186 @@
 package pbarang.view.kontrak;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pbarang.model.admin.User;
+import pbarang.model.admin.UserJdbc;
+import pbarang.model.admin.UserJdbcImplement;
+import pbarang.model.klien.Klien;
+import pbarang.model.klien.KlienJdbc;
+import pbarang.model.klien.KlienJdbcImplement;
+import pbarang.model.kontrak.Kontrak;
+import pbarang.model.kontrak.KontrakJdbc;
+import pbarang.model.kontrak.KontrakJdbcImplement;
+import pbarang.view.menu.FormMenu;
+
 public class FormKontrak extends javax.swing.JFrame {
+
+    private final KontrakJdbc kontrakJdbc;
+    private final KlienJdbc klienJdbc;
+    private final UserJdbc userJdbc;
+    private Boolean clickTable;
+    private DefaultTableModel defaultTableModel;
 
     public FormKontrak() {
         initComponents();
+        kontrakJdbc = new KontrakJdbcImplement();
+        klienJdbc = new KlienJdbcImplement();
+        userJdbc = new UserJdbcImplement();
+        initTable();
+        loadTable();
+        loadComboBoxKlien();
+        loadComboBoxUser();
+    }
+
+    private void initTable() {
+        defaultTableModel = new DefaultTableModel();
+        defaultTableModel.addColumn("No");
+        defaultTableModel.addColumn("Tanggal Kontrak");
+        defaultTableModel.addColumn("Id Klien");
+        defaultTableModel.addColumn("Nama Klien");
+        defaultTableModel.addColumn("Nama Proyek");
+        defaultTableModel.addColumn("User");
+        defaultTableModel.addColumn("Nama User");
+        defaultTableModel.addColumn("Nilai Kontrak");
+        defaultTableModel.addColumn("Lama Proyek");
+        defaultTableModel.addColumn("Syarat Pembayaran");
+        tabelKontrak.setModel(defaultTableModel);
+    }
+
+    private void loadTable() {
+        defaultTableModel.getDataVector().removeAllElements();
+        defaultTableModel.fireTableDataChanged();
+        List<Kontrak> responses = kontrakJdbc.selectAll();
+        if (responses != null) {
+            Object[] objects = new Object[10];
+            for (Kontrak response : responses) {
+                objects[0] = response.getId();
+                objects[1] = response.getTanggalKontrak();
+                objects[2] = response.getIdKlien();
+                objects[3] = response.getNamaKlien();
+                objects[4] = response.getNamaProyek();
+                objects[5] = response.getUser();
+                objects[6] = response.getNamaUser();
+                objects[7] = response.getNilaiKontrak();
+                objects[8] = response.getLamaProyek();
+                objects[9] = response.getSyaratPembayaran();
+                defaultTableModel.addRow(objects);
+            }
+            clickTable = false;
+        }
+    }
+    
+    private void loadComboBoxKlien() {
+        List<Klien> responses = klienJdbc.selectAll();
+        for (Klien response : responses) {
+            cbxIdKlien.addItem(String.valueOf(response.getId()));
+        }
+    }
+    
+    private void loadComboBoxUser() {
+        List<User> responses = userJdbc.selectAll();
+        for (User response : responses) {
+            cbxUser.addItem(String.valueOf(response.getId()));
+        }
+    }
+    
+    private void loadTextKlien() {
+        Klien response = klienJdbc.select(Long.parseLong(cbxIdKlien.getSelectedItem().toString()));
+        txtNamaKlien.setText(response.getNama());
+    }
+    
+    private void loadTextUser() {
+        User response = userJdbc.select(cbxUser.getSelectedItem().toString());
+        txtNamaUser.setText(response.getNama());
+    }
+
+    private void clickTable() {
+        Kontrak response = kontrakJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tabelKontrak.getSelectedRow(), 0).toString()));
+        cbxUser.setSelectedItem(response.getUser());
+        txtNamaProyek.setText(response.getNamaProyek());
+        txtLamaProyek.setText(String.valueOf(response.getLamaProyek()));
+        DateTanggalKontrak.setDate(response.getTanggalKontrak());
+        txtNilaiKontrak.setText(String.valueOf(response.getNilaiKontrak()));
+        cbxIdKlien.setSelectedItem(String.valueOf(response.getId()));
+        txtSyaratPembayaran.setText(response.getSyaratPembayaran());
+        clickTable = true;
+    }
+
+    private void empty() {
+        cbxUser.setSelectedIndex(0);
+        txtNamaProyek.setText("");
+        txtLamaProyek.setText("");
+        DateTanggalKontrak.setDate(null);
+        txtNilaiKontrak.setText("");
+        cbxIdKlien.setSelectedIndex(0);
+        txtSyaratPembayaran.setText("");
+    }
+
+    private void performSave() {
+        if (!txtNamaProyek.getText().isEmpty()
+                && !txtLamaProyek.getText().isEmpty()
+                && DateTanggalKontrak.getDate() != null
+                && !txtNilaiKontrak.getText().isEmpty()) {
+            if (JOptionPane.showConfirmDialog(null, "Do you want to save new data ?", "Info", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                Kontrak request = new Kontrak();
+                request.setIdKlien(Long.parseLong(cbxIdKlien.getSelectedItem().toString()));
+                request.setLamaProyek(Long.parseLong(txtLamaProyek.getText()));
+                request.setNamaProyek(txtNamaProyek.getText());
+                request.setNilaiKontrak(Long.parseLong(txtNilaiKontrak.getText()));
+                request.setSyaratPembayaran(txtSyaratPembayaran.getText());
+                request.setTanggalKontrak(DateTanggalKontrak.getDate());
+                request.setUser(cbxUser.getSelectedItem().toString());
+                kontrakJdbc.insert(request);
+                loadTable();
+                empty();
+                JOptionPane.showMessageDialog(null, "Successfully save data", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Data not empty", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void performUpdate() {
+        if (clickTable) {
+            if (!txtNamaProyek.getText().isEmpty()
+                    && !txtLamaProyek.getText().isEmpty()
+                    && DateTanggalKontrak.getDate() != null
+                    && !txtNilaiKontrak.getText().isEmpty()) {
+                if (JOptionPane.showConfirmDialog(null, "Do you want to update data by id " + defaultTableModel.getValueAt(tabelKontrak.getSelectedRow(), 0).toString() + " ?", "Warning", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                    Kontrak request = new Kontrak();
+                    request.setId(Long.parseLong(defaultTableModel.getValueAt(tabelKontrak.getSelectedRow(), 0).toString()));
+                    request.setIdKlien(Long.parseLong(cbxIdKlien.getSelectedItem().toString()));
+                    request.setLamaProyek(Long.parseLong(txtLamaProyek.getText()));
+                    request.setNamaProyek(txtNamaProyek.getText());
+                    request.setNilaiKontrak(Long.parseLong(txtNilaiKontrak.getText()));
+                    request.setSyaratPembayaran(txtSyaratPembayaran.getText());
+                    request.setTanggalKontrak(DateTanggalKontrak.getDate());
+                    request.setUser(cbxUser.getSelectedItem().toString());
+                    kontrakJdbc.update(request);
+                    loadTable();
+                    empty();
+                    JOptionPane.showMessageDialog(null, "Successfully update data", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Data not empty", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete or edit must click table", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void performDelete() {
+        if (clickTable) {
+            if (JOptionPane.showConfirmDialog(null, "Do you want to delete data by id " + defaultTableModel.getValueAt(tabelKontrak.getSelectedRow(), 0).toString() + " ?", "Warning", JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                kontrakJdbc.delete(Long.parseLong(defaultTableModel.getValueAt(tabelKontrak.getSelectedRow(), 0).toString()));
+                loadTable();
+                empty();
+                JOptionPane.showMessageDialog(null, "Successfully delete data", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete or edit must click table", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -14,7 +191,6 @@ public class FormKontrak extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -46,10 +222,6 @@ public class FormKontrak extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -65,6 +237,11 @@ public class FormKontrak extends javax.swing.JFrame {
         btnLogout.setBackground(new java.awt.Color(255, 51, 51));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/logout.png"))); // NOI18N
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -86,8 +263,6 @@ public class FormKontrak extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/contact.png"))); // NOI18N
-
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -101,6 +276,7 @@ public class FormKontrak extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Nama Proyek          :");
 
+        txtNamaUser.setEditable(false);
         txtNamaUser.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNamaUser.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -145,16 +321,27 @@ public class FormKontrak extends javax.swing.JFrame {
 
         cbxUser.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbxUser.setForeground(new java.awt.Color(0, 0, 0));
+        cbxUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxUserActionPerformed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("Nama Klien               :");
 
+        txtNamaKlien.setEditable(false);
         txtNamaKlien.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNamaKlien.setForeground(new java.awt.Color(0, 0, 0));
 
         cbxIdKlien.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbxIdKlien.setForeground(new java.awt.Color(0, 0, 0));
+        cbxIdKlien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxIdKlienActionPerformed(evt);
+            }
+        });
 
         tabelKontrak.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -164,28 +351,52 @@ public class FormKontrak extends javax.swing.JFrame {
                 "Id", "User", "Nama User", "Nama Proyek", "Lama Proyek", "Tanggal Kontrak", "Nilai Kontrak", "Id Klien", "Nama Klien", "Syarat Pembayaran"
             }
         ));
+        tabelKontrak.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelKontrakMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelKontrak);
 
         btnInsert.setBackground(new java.awt.Color(51, 153, 255));
         btnInsert.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnInsert.setForeground(new java.awt.Color(255, 255, 255));
         btnInsert.setText("Insert");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setBackground(new java.awt.Color(51, 153, 255));
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(51, 153, 255));
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDelete.setForeground(new java.awt.Color(255, 255, 255));
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnClear.setBackground(new java.awt.Color(51, 153, 255));
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
-        btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/close.png"))); // NOI18N
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/clear.png"))); // NOI18N
 
@@ -219,7 +430,7 @@ public class FormKontrak extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(19, 19, 19)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbxIdKlien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,14 +524,6 @@ public class FormKontrak extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/insert.png"))); // NOI18N
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/update.png"))); // NOI18N
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/close.png"))); // NOI18N
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pengadaanbrg.image/delete.png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -328,31 +531,13 @@ public class FormKontrak extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(111, 111, 111)
-                .addComponent(jLabel7)
-                .addGap(307, 307, 307)
-                .addComponent(jLabel8)
-                .addGap(117, 117, 117)
-                .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(49, 49, 49)
-                            .addComponent(jLabel6))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                            .addGap(452, 452, 452)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                .addGap(15, 15, 15)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -368,26 +553,18 @@ public class FormKontrak extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel16)
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel2)
-                        .addGap(537, 537, 537))
+                        .addGap(566, 566, 566))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -409,8 +586,41 @@ public class FormKontrak extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        performSave();
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        performUpdate();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        performDelete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        empty();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void tabelKontrakMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelKontrakMouseClicked
+        clickTable();
+    }//GEN-LAST:event_tabelKontrakMouseClicked
+
+    private void cbxUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxUserActionPerformed
+        loadTextUser();
+    }//GEN-LAST:event_cbxUserActionPerformed
+
+    private void cbxIdKlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxIdKlienActionPerformed
+        loadTextKlien();
+    }//GEN-LAST:event_cbxIdKlienActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        new FormMenu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     public static void main(String args[]) {
-       
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FormKontrak().setVisible(true);
@@ -438,15 +648,10 @@ public class FormKontrak extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

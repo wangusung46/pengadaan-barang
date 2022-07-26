@@ -9,6 +9,7 @@ import pbarang.model.detailkontrak.DetailKontrakJdbcImplement;
 import pbarang.model.kontrak.Kontrak;
 import pbarang.model.kontrak.KontrakJdbc;
 import pbarang.model.kontrak.KontrakJdbcImplement;
+import pbarang.view.menu.FormMenu;
 
 public class FormDetailKontrak extends javax.swing.JFrame {
 
@@ -66,7 +67,7 @@ public class FormDetailKontrak extends javax.swing.JFrame {
     }
 
     private void clickTable() {
-        DetailKontrak response = detailKontrakJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tblDetailKontrak.getSelectedRow(), 1).toString()));
+        DetailKontrak response = detailKontrakJdbc.select(Long.parseLong(defaultTableModel.getValueAt(tblDetailKontrak.getSelectedRow(), 0).toString()));
         cbxIdKontrak.setSelectedItem(response.getIdKontrak());
         txtPekerjaan.setText(response.getPekerjaan());
         txtVolume.setText(String.valueOf(response.getVolume()));
@@ -198,6 +199,11 @@ public class FormDetailKontrak extends javax.swing.JFrame {
         btnLogout.setBackground(new java.awt.Color(255, 51, 51));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pbarang/image/logout.png"))); // NOI18N
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -394,6 +400,7 @@ public class FormDetailKontrak extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel17)
@@ -412,7 +419,6 @@ public class FormDetailKontrak extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -440,11 +446,11 @@ public class FormDetailKontrak extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel14)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel15)
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addComponent(btnUpdate)
-                                            .addGap(7, 7, 7)))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel15)
+                                            .addComponent(btnUpdate))
+                                        .addGap(7, 7, 7))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addComponent(btnDelete)
                                         .addGap(8, 8, 8))))
@@ -509,6 +515,11 @@ public class FormDetailKontrak extends javax.swing.JFrame {
     private void tblDetailKontrakMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetailKontrakMouseClicked
         clickTable();
     }//GEN-LAST:event_tblDetailKontrakMouseClicked
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        new FormMenu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     public static void main(String args[]) {
 
