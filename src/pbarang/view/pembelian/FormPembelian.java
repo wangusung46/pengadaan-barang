@@ -99,45 +99,32 @@ public class FormPembelian extends javax.swing.JFrame {
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Id Kontrak          :");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tanggal Ro        :");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Id Supplier         :");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Netto                 :");
 
         txtNetto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtNetto.setForeground(new java.awt.Color(0, 0, 0));
 
         txtNamaSupplier.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtNamaSupplier.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Nama Supplier :");
 
         cbxIdSupplier.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxIdSupplier.setForeground(new java.awt.Color(0, 0, 0));
 
         cbxIdKontrak.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxIdKontrak.setForeground(new java.awt.Color(0, 0, 0));
-
-        dateTanggalRo.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Nama Kontrak   :");
 
         txtNamaKontrak.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtNamaKontrak.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -291,9 +278,9 @@ public class FormPembelian extends javax.swing.JFrame {
                                 .addComponent(jLabel14)
                                 .addComponent(jLabel15)
                                 .addComponent(jLabel16))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnInsert)
-                                .addComponent(jLabel17)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel17)
+                                .addComponent(btnInsert)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
