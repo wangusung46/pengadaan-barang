@@ -1,63 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Kontrak" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="50328c8e-3630-42bd-ab70-bbadfdffa14e">
+<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Pembelian" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="50328c8e-3630-42bd-ab70-bbadfdffa14e">
 	<property name="ireport.zoom" value="0.7513148009015777"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Pulau Pari"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<queryString language="SQL">
-		<![CDATA[select
-	a.id,
-	b.nama_proyek,
-	a.pekerjaan,
-	a.volume,
-	a.satuan,
-	a.harga,
-	a.jumlah,
-	(a.harga * a.jumlah) total
-from
-	detail_kontrak a
-left join kontrak b on
-	a.id_kontrak = b.id;]]>
+		<![CDATA[select * from wisata]]>
 	</queryString>
-	<field name="id" class="java.lang.Long">
+	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="detail_kontrak"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
 	</field>
-	<field name="nama_proyek" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nama_proyek"/>
-		<property name="com.jaspersoft.studio.field.label" value="nama_proyek"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="kontrak"/>
+	<field name="paket" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="paket"/>
+		<property name="com.jaspersoft.studio.field.label" value="paket"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
 	</field>
-	<field name="pekerjaan" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="pekerjaan"/>
-		<property name="com.jaspersoft.studio.field.label" value="pekerjaan"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="detail_kontrak"/>
-	</field>
-	<field name="volume" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="volume"/>
-		<property name="com.jaspersoft.studio.field.label" value="volume"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="detail_kontrak"/>
-	</field>
-	<field name="satuan" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="satuan"/>
-		<property name="com.jaspersoft.studio.field.label" value="satuan"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="detail_kontrak"/>
-	</field>
-	<field name="harga" class="java.lang.Long">
+	<field name="harga" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="harga"/>
 		<property name="com.jaspersoft.studio.field.label" value="harga"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="detail_kontrak"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
 	</field>
-	<field name="jumlah" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="jumlah"/>
-		<property name="com.jaspersoft.studio.field.label" value="jumlah"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="detail_kontrak"/>
+	<field name="id_penginapan" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_penginapan"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_penginapan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
 	</field>
-	<field name="total" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="total"/>
-		<property name="com.jaspersoft.studio.field.label" value="total"/>
+	<field name="nama_penginapan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_penginapan"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_penginapan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+	</field>
+	<field name="id_transportasi" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_transportasi"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_transportasi"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+	</field>
+	<field name="nama_transportasi" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_transportasi"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_transportasi"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+	</field>
+	<field name="deskripsi_makanan_minuman" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="deskripsi_makanan_minuman"/>
+		<property name="com.jaspersoft.studio.field.label" value="deskripsi_makanan_minuman"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+	</field>
+	<field name="deskripsi_tambahan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="deskripsi_tambahan"/>
+		<property name="com.jaspersoft.studio.field.label" value="deskripsi_tambahan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -69,7 +64,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CV ADHI RAHAYU]]></text>
+				<text><![CDATA[Pulau Pari Tour & Travel]]></text>
 			</staticText>
 			<line>
 				<reportElement x="1" y="78" width="800" height="3" uuid="cfb90550-c6e9-491b-835b-04af2eb6b7a1"/>
@@ -79,7 +74,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Jl. Masjid Hudal Islam No 58 RT01/07 Kecamatan Pondok Gede Kelurahan Jatimakmur Kota Bekasi]]></text>
+				<text><![CDATA[Jl. Pari Raya RT II, RW.IV, Pulau Pari, Kepulauan Seribu Sel., Kabupaten Kepulauan Seribu, Daerah Khusus Ibukota Jakarta 14520, Indonesia]]></text>
 			</staticText>
 			<image>
 				<reportElement x="1" y="2" width="160" height="76" uuid="cda00184-164c-4c6d-9be1-d3cfd44ce27b"/>
@@ -93,7 +88,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Laporan Kontrak]]></text>
+				<text><![CDATA[Laporan Wisata]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -125,7 +120,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Proyek]]></text>
+				<text><![CDATA[Pake Wisata]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="200" y="0" width="100" height="20" uuid="63af8054-1b28-42a8-8ad9-c38153a4681d"/>
@@ -139,7 +134,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Pekerjaan]]></text>
+				<text><![CDATA[Harga]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="300" y="0" width="150" height="20" uuid="4fec4679-c404-4a09-93d7-6e6194e5c969"/>
@@ -153,7 +148,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Volume]]></text>
+				<text><![CDATA[Penginapan]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="450" y="0" width="150" height="20" uuid="e477a2e9-5bd1-4f97-83aa-c8e7d20bf95d"/>
@@ -167,7 +162,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Harga]]></text>
+				<text><![CDATA[Transportasi]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="600" y="0" width="100" height="20" uuid="1275f51f-b6b6-46ec-acd6-c7513c373d8e"/>
@@ -181,7 +176,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Jumlah]]></text>
+				<text><![CDATA[Makanan]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="700" y="0" width="101" height="20" uuid="2c021e42-7364-448d-9932-143bc1e571d3"/>
@@ -195,7 +190,7 @@ left join kontrak b on
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total]]></text>
+				<text><![CDATA[Tambahan]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -223,7 +218,7 @@ left join kontrak b on
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{nama_proyek}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{paket}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="200" y="0" width="100" height="20" uuid="6f113cc4-46e1-4b9f-a38c-194ea60ffec9"/>
@@ -235,7 +230,7 @@ left join kontrak b on
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{pekerjaan}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="300" y="0" width="150" height="20" uuid="1fe2eb48-26c0-46fa-a544-dbbf65fd91b7"/>
@@ -247,7 +242,7 @@ left join kontrak b on
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{volume}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nama_penginapan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="450" y="0" width="150" height="20" uuid="f7206a02-60e6-4337-b59a-34e9f5367983"/>
@@ -259,7 +254,7 @@ left join kontrak b on
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nama_transportasi}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="600" y="0" width="100" height="20" uuid="7a3be659-d9cb-48b8-9166-1fa36bc57843"/>
@@ -271,7 +266,7 @@ left join kontrak b on
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{jumlah}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{deskripsi_makanan_minuman}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="700" y="0" width="101" height="20" uuid="70f9aa37-a07b-4241-8a71-70a8c0eb358a"/>
@@ -283,12 +278,12 @@ left join kontrak b on
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{deskripsi_tambahan}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="55" splitType="Stretch">
+		<band height="54" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="699" y="34" width="100" height="20" uuid="b7fe39f4-bc0c-40b6-8fb8-203a427bc17a"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
