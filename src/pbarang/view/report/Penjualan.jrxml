@@ -4,55 +4,56 @@
 	<property name="ireport.zoom" value="0.7513148009015777"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Pulau Pari"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<queryString language="SQL">
-		<![CDATA[select * from wisata]]>
+		<![CDATA[select
+	a.id,
+	a.barang,
+	a.satuan,
+	a.volume,
+	a.harga,
+	a.subtotal,
+	b.tanggal_penjualan
+from
+	detail_penjualan a
+left join penjualan b on
+	a.id_penjualan = b.id;]]>
 	</queryString>
-	<field name="id" class="java.lang.Integer">
+	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_penjualan"/>
 	</field>
-	<field name="paket" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="paket"/>
-		<property name="com.jaspersoft.studio.field.label" value="paket"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+	<field name="barang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="barang"/>
+		<property name="com.jaspersoft.studio.field.label" value="barang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_penjualan"/>
 	</field>
-	<field name="harga" class="java.lang.Integer">
+	<field name="satuan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="satuan"/>
+		<property name="com.jaspersoft.studio.field.label" value="satuan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_penjualan"/>
+	</field>
+	<field name="volume" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="volume"/>
+		<property name="com.jaspersoft.studio.field.label" value="volume"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_penjualan"/>
+	</field>
+	<field name="harga" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="harga"/>
 		<property name="com.jaspersoft.studio.field.label" value="harga"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_penjualan"/>
 	</field>
-	<field name="id_penginapan" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="id_penginapan"/>
-		<property name="com.jaspersoft.studio.field.label" value="id_penginapan"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+	<field name="subtotal" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="subtotal"/>
+		<property name="com.jaspersoft.studio.field.label" value="subtotal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detail_penjualan"/>
 	</field>
-	<field name="nama_penginapan" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nama_penginapan"/>
-		<property name="com.jaspersoft.studio.field.label" value="nama_penginapan"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
-	</field>
-	<field name="id_transportasi" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="id_transportasi"/>
-		<property name="com.jaspersoft.studio.field.label" value="id_transportasi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
-	</field>
-	<field name="nama_transportasi" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nama_transportasi"/>
-		<property name="com.jaspersoft.studio.field.label" value="nama_transportasi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
-	</field>
-	<field name="deskripsi_makanan_minuman" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="deskripsi_makanan_minuman"/>
-		<property name="com.jaspersoft.studio.field.label" value="deskripsi_makanan_minuman"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
-	</field>
-	<field name="deskripsi_tambahan" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="deskripsi_tambahan"/>
-		<property name="com.jaspersoft.studio.field.label" value="deskripsi_tambahan"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="wisata"/>
+	<field name="tanggal_penjualan" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal_penjualan"/>
+		<property name="com.jaspersoft.studio.field.label" value="tanggal_penjualan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="penjualan"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
