@@ -6,6 +6,7 @@
 	<property name="ireport.y" value="13"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="Logo" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select * from klien]]>
 	</queryString>
@@ -33,7 +34,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="81" splitType="Stretch">
+		<band height="87" splitType="Stretch">
 			<staticText>
 				<reportElement x="1" y="0" width="800" height="26" uuid="5ac2962c-0901-4d80-98ad-f77201d29799"/>
 				<textElement textAlignment="Center">
@@ -51,6 +52,10 @@
 				</textElement>
 				<text><![CDATA[Jl. Masjid Hudal Islam No 58 RT01/07 Kecamatan Pondok Gede Kelurahan Jatimakmur Kota Bekasi]]></text>
 			</staticText>
+			<image>
+				<reportElement x="44" y="22" width="50" height="50" uuid="a960a6ca-6dbc-4099-a863-c761f98f79b9"/>
+				<imageExpression><![CDATA[$P{Logo}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

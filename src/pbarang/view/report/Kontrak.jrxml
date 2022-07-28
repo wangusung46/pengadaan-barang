@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Kontrak" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="50328c8e-3630-42bd-ab70-bbadfdffa14e">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="43"/>
 	<property name="ireport.y" value="3"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="Logo" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select
 	a.id,
@@ -82,8 +84,8 @@ left join kontrak b on
 				<text><![CDATA[Jl. Masjid Hudal Islam No 58 RT01/07 Kecamatan Pondok Gede Kelurahan Jatimakmur Kota Bekasi]]></text>
 			</staticText>
 			<image>
-				<reportElement x="1" y="2" width="160" height="76" uuid="cda00184-164c-4c6d-9be1-d3cfd44ce27b"/>
-				<imageExpression><![CDATA["C:\\Users\\Asus\\Documents\\NetBeansProjects\\pengadaan-barang\\src\\pbarang\\view\\report\\adhi.png"]]></imageExpression>
+				<reportElement x="44" y="22" width="50" height="50" uuid="a960a6ca-6dbc-4099-a863-c761f98f79b9"/>
+				<imageExpression><![CDATA[$P{Logo}]]></imageExpression>
 			</image>
 		</band>
 	</title>

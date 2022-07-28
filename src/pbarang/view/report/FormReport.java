@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import pbarang.view.menu.FormMenu;
 
 public class FormReport extends javax.swing.JFrame {
-    
+
     private final Connection connection;
     private static final Logger logger = Logger.getLogger(FormReport.class);
 
@@ -24,10 +24,11 @@ public class FormReport extends javax.swing.JFrame {
         initComponents();
         connection = Conn.getConnection();
     }
-    
+
     private void printKlien() {
         try {
             HashMap parameter = new HashMap();
+            parameter.put("Logo", "src\\pbarang\\view\\report\\adhi.png");
             InputStream file = getClass().getResourceAsStream("/pbarang/view/report/Klien.jrxml");
             JasperDesign JasperDesign = JRXmlLoader.load(file);
             JasperReport JasperReport = JasperCompileManager.compileReport(JasperDesign);
@@ -37,10 +38,58 @@ public class FormReport extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
     }
+
     private void printSupplier() {
         try {
             HashMap parameter = new HashMap();
+            parameter.put("Logo", "src\\pbarang\\view\\report\\adhi.png");
             InputStream file = getClass().getResourceAsStream("/pbarang/view/report/Supplier.jrxml");
+            JasperDesign JasperDesign = JRXmlLoader.load(file);
+            JasperReport JasperReport = JasperCompileManager.compileReport(JasperDesign);
+            JasperPrint JasperPrint = JasperFillManager.fillReport(JasperReport, parameter, connection);
+            JasperViewer.viewReport(JasperPrint, false);
+        } catch (JRException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void printKontrak() {
+        try {
+            HashMap parameter = new HashMap();
+            parameter.put("Logo", "src\\pbarang\\view\\report\\adhi.png");
+            InputStream file = getClass().getResourceAsStream("/pbarang/view/report/Kontrak.jrxml");
+            JasperDesign JasperDesign = JRXmlLoader.load(file);
+            JasperReport JasperReport = JasperCompileManager.compileReport(JasperDesign);
+            JasperPrint JasperPrint = JasperFillManager.fillReport(JasperReport, parameter, connection);
+            JasperViewer.viewReport(JasperPrint, false);
+        } catch (JRException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void printPembelian() {
+        try {
+            HashMap parameter = new HashMap();
+            parameter.put("dari", dateDari.getDate());
+            parameter.put("sampai", dateSampai.getDate());
+            parameter.put("Logo", "src\\pbarang\\view\\report\\adhi.png");
+            InputStream file = getClass().getResourceAsStream("/pbarang/view/report/Pembelian.jrxml");
+            JasperDesign JasperDesign = JRXmlLoader.load(file);
+            JasperReport JasperReport = JasperCompileManager.compileReport(JasperDesign);
+            JasperPrint JasperPrint = JasperFillManager.fillReport(JasperReport, parameter, connection);
+            JasperViewer.viewReport(JasperPrint, false);
+        } catch (JRException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void printPenjualan() {
+        try {
+            HashMap parameter = new HashMap();
+            parameter.put("dari", dateDari.getDate());
+            parameter.put("sampai", dateSampai.getDate());
+            parameter.put("Logo", "src\\pbarang\\view\\report\\adhi.png");
+            InputStream file = getClass().getResourceAsStream("/pbarang/view/report/Penjualan.jrxml");
             JasperDesign JasperDesign = JRXmlLoader.load(file);
             JasperReport JasperReport = JasperCompileManager.compileReport(JasperDesign);
             JasperPrint JasperPrint = JasperFillManager.fillReport(JasperReport, parameter, connection);
@@ -164,6 +213,11 @@ public class FormReport extends javax.swing.JFrame {
         btnKontrak.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         btnKontrak.setForeground(new java.awt.Color(255, 255, 255));
         btnKontrak.setText("Data Kontrak");
+        btnKontrak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKontrakActionPerformed(evt);
+            }
+        });
 
         btnSupplier.setBackground(new java.awt.Color(255, 153, 51));
         btnSupplier.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
@@ -304,7 +358,7 @@ public class FormReport extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPenjualanActionPerformed
-        // TODO add your handling code here:
+        printPenjualan();
     }//GEN-LAST:event_btnPenjualanActionPerformed
 
     private void btnKlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKlienActionPerformed
@@ -312,7 +366,7 @@ public class FormReport extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKlienActionPerformed
 
     private void btnPembelianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPembelianActionPerformed
-        // TODO add your handling code here:
+        printPembelian();
     }//GEN-LAST:event_btnPembelianActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -324,8 +378,12 @@ public class FormReport extends javax.swing.JFrame {
         printSupplier();
     }//GEN-LAST:event_btnSupplierActionPerformed
 
+    private void btnKontrakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKontrakActionPerformed
+        printKontrak();
+    }//GEN-LAST:event_btnKontrakActionPerformed
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -335,7 +393,7 @@ public class FormReport extends javax.swing.JFrame {
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }        
+        }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
