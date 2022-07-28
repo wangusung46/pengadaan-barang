@@ -1,11 +1,53 @@
 package pbarang.view.report;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.util.HashMap;
+import koneksi.Conn;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 import pbarang.view.menu.FormMenu;
 
 public class FormReport extends javax.swing.JFrame {
+    
+    private final Connection connection;
+    private static final Logger logger = Logger.getLogger(FormReport.class);
 
     public FormReport() {
         initComponents();
+        connection = Conn.getConnection();
+    }
+    
+    private void printKlien() {
+        try {
+            HashMap parameter = new HashMap();
+            InputStream file = getClass().getResourceAsStream("/pbarang/view/report/Klien.jrxml");
+            JasperDesign JasperDesign = JRXmlLoader.load(file);
+            JasperReport JasperReport = JasperCompileManager.compileReport(JasperDesign);
+            JasperPrint JasperPrint = JasperFillManager.fillReport(JasperReport, parameter, connection);
+            JasperViewer.viewReport(JasperPrint, false);
+        } catch (JRException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private void printSupplier() {
+        try {
+            HashMap parameter = new HashMap();
+            InputStream file = getClass().getResourceAsStream("/pbarang/view/report/Supplier.jrxml");
+            JasperDesign JasperDesign = JRXmlLoader.load(file);
+            JasperReport JasperReport = JasperCompileManager.compileReport(JasperDesign);
+            JasperPrint JasperPrint = JasperFillManager.fillReport(JasperReport, parameter, connection);
+            JasperViewer.viewReport(JasperPrint, false);
+        } catch (JRException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -127,6 +169,11 @@ public class FormReport extends javax.swing.JFrame {
         btnSupplier.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         btnSupplier.setForeground(new java.awt.Color(255, 255, 255));
         btnSupplier.setText("Data Supplier");
+        btnSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupplierActionPerformed(evt);
+            }
+        });
 
         btnPenjualan.setBackground(new java.awt.Color(255, 153, 0));
         btnPenjualan.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
@@ -261,7 +308,7 @@ public class FormReport extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPenjualanActionPerformed
 
     private void btnKlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKlienActionPerformed
-        // TODO add your handling code here:
+        printKlien();
     }//GEN-LAST:event_btnKlienActionPerformed
 
     private void btnPembelianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPembelianActionPerformed
@@ -273,6 +320,10 @@ public class FormReport extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
+        printSupplier();
+    }//GEN-LAST:event_btnSupplierActionPerformed
+
     public static void main(String args[]) {
         
         try {
@@ -282,13 +333,7 @@ public class FormReport extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormReport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }        
 
