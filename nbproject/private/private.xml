@@ -4,16 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/kontrak/FormKontrak.java</file>
-            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/model/detailpembelian/DetailPembelian.java</file>
+            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/report/Kontrak.jrxml</file>
+            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/menu/FormRegister.java</file>
             <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/klien/FormKlien.java</file>
-            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/penjualan/FormPenjualan.java</file>
-            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/model/detailpembelian/DetailPembelianJdbc.java</file>
+            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/report/Klien.jrxml</file>
+            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/menu/FormLogin.java</file>
             <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/detailpenjualan/FormDetailPenjualan.java</file>
-            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/model/admin/UserJdbcImplement.java</file>
+            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/report/Pembelian.jrxml</file>
+            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/report/Supplier.jrxml</file>
+            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/menu/FormMenu.java</file>
             <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/detailkontrak/FormDetailKontrak.java</file>
-            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/supplier/FormSupplier.java</file>
             <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/view/detailpembelian/FormDetailPembelian.java</file>
-            <file>file:/C:/Users/Asus/Documents/NetBeansProjects/pengadaan-barang/src/pbarang/model/detailpembelian/DetailPembelianJdbcImplement.java</file>
         </group>
     </open-files>
 </project-private>
